@@ -291,3 +291,39 @@ input[type=submit]{
 	border-radius:25px;
 	cursor:pointer;
 }
+
+
+
+
+
+/*Bryan's stuff*/
+
+.inputBox {
+float: left;
+width: 100%;
+}
+
+.errorbox {
+float: left;
+width: 40%;
+padding-left: 33%;
+margin-bottom: 9px;
+}
+
+.status-success {
+color: #44ff44;
+}
+
+.status-error {
+color: #ff4444;
+}
+
+[class*="status"]
+{
+	margin-bottom: 40px;
+}
+
+#notification {
+max-width: 50%;
+margin: 20px auto;
+}

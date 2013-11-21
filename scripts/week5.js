@@ -24,20 +24,94 @@ var returnedAjax;
 
 
 function submit_success(data, textStatus, jqXHR){
-	console.log(data);
+	var $notification = $("#notification");
+	$notification.html("");
+	$notification.append('<p class = "status-'+data.status+'">'+data.message+'</p>').show();
+	if (data.status == "success")
+	{
+		$("#formbox").add("#picker").add("#charRadios").slideUp();	
+		$notification.append("<p>Thanks for registering! We'll be slowly draining your account over the next few months as we suck you into our revenue stream. You'll be so addicted, you won't feel a thing!</p>")
+	}	
 }
 function submit_error(jqXHR, textStatus, errorThrown){
-	console.log(textStatus);	
+	console.log(jqXHR.responseText);	
+console.log(jqXHR);	
+console.log(textStatus);	
+	console.log(errorThrown);	
 }
 
+function validate($el,fieldName)
+{
+	var val = $el.val();
+	var data = {};
+	data[fieldName] = val;
+		$.ajax({
+			type:"get",
+			url:"validate.php",
+			datatype: "json",
+			data:data,
+			success:function(data,text,jqXHR)
+			{
+				validate_success(data, $el);
+			},
+			error:validate_error
+		});
+}
+
+
+function validate_success(data, $el)
+{
+	
+	$errorBox = $el.siblings(".errorbox");
+	$errorBox.show();
+	if (data.valid)
+	{
+		$errorBox.html("This is available!");
+	}else
+	{
+		$errorBox.html("This is already taken. Please choose a different one.");
+	}
+}
+function validate_error(jqXHR, textStatus, errorThrown)
+{
+console.log(textStatus);
+}
 
 
 $(document).ready(function(){
+	$(".errorbox").hide();
+
+	var $activated = $("#charRadios .cButton.activated").first();
 	
-	$("#charRadios .cButton").on("click",function(){
-		var $this = $(this);
-		var id = parseInt($this.attr("id").replace("c", ""));
+	$("#charName").text($activated.data("name"));
+
+	if(!($(this).hasClass("activated"))){		
+	}
+	
+	$("#charRadios .cButton").on("click", function(event){
+		//jquery hasClass: look for a class (even among many)
+		if(!($(this).hasClass("activated"))){		
+			//as the parent element to find all the buttons, then ask for the index of this particular object
+			//jquery parent - gets the parent element
+			//jquery find - like querySelectorAll, but in a specific jquery object
+			//jquery index - search for the given element among many element, return it's indexed value (starting at 0)
+			
+						
+			var charName = $(this).data("name");
+			$("#charName").text(charName);
+			
+		}
+		
 	});
+
+	$("#userName").on("blur", function(){
+		validate($(this),"userName");
+	});
+	$("#email").on("blur", function(){
+		validate($(this),"email");
+	});
+
+
 	
 	$("#btnSubmit").on("click",function(){
 		var userName, pass, email, playName, credit, country, characterType, playForm;
@@ -50,7 +124,7 @@ $(document).ready(function(){
 		pass = $("#pass").val();
 		email = $("#email").val();
 		playName = $("#playName").val();
-		country = playForm.country.value;
+		country = $('input[name=country]:checked').val();
 		credit = $("#credit").val();
 
 		characterType = $(".cButton.activated").first().attr("id").replace("c", "");

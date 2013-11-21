@@ -14,6 +14,8 @@
         
         </header>
         
+		
+		
         <div id="picker">
         	<h2>Choose a character:</h2>       
             
@@ -45,21 +47,32 @@
             <div id="c5" class="cButton" data-name="Sock Monster"></div>            
         </div>
         
+		<div id = "notification" style = "display:none;"></div>
+		
         <div id="formbox">
             <form id="playForm" action="#" method="get">
-                <label for="charName">Your Character:</label><div class="inputMime" id="cnarName"></div>
-                <label for="userName">Username:</label><input type="text" name="userName" id="userName" /><div class="errorbox" id="nameError"></div>
+                <div class = "inputBox">
+                <label for="charName">Your Character:</label><div class="inputMime" id="charName"></div>
+                </div>
+                <div class = "inputBox">
+                <label for="userName">Username:</label><input type="text" name="userName" id="userName" /><div class="errorbox" id="nameError"></div></div>
+                <div class = "inputBox">
                 <label for="pass">Password:</label><input type="password" name="pass" id="pass" />
+            </div><div class = "inputBox">
                 <label for="email">Email:</label><input type="text" name="email" id="email" /><div class="errorbox" id="emailError"></div>
+                </div><div class = "inputBox">
                 <label for="playName">Full Name:</label><input type="text" name="playName" id="playName" />
+                </div><div class = "inputBox">
                 <div id="radioBox">
                 	<h4>Country:</h4>
                     <label for="country">Canada</label><input type="radio" name="country" id="can" />
                     <label for="country">USA</label><input type="radio" name="country" id="usa" />
                     <label for="country">Mexico</label><input type="radio" name="country" id="mex" />
                     <label for="country">Elsewhere</label><input type="radio" name="country" id="else" />
-                </div>            
+                </div>
+                </div><div class = "inputBox">            
                 <label for="credit">Credit Card Number:</label><input type="text" name="credit" id="credit" />
+            </div>
                 <input type="submit" name="btnSubmit" id="btnSubmit" value="Give Us All Your Money!*" />
             </form>
         </div>
