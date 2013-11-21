@@ -145,13 +145,23 @@ class User
 			{
 				
 				//We need to insert this user
-				$sql = "INSERT INTO users('user_id', 'user_username', 'user_pass', 'user_name_full', 'user_email', 'user_country', 'user_creditcard_number') VALUES ('$user_id', '$user_username','$user_pass','$user_name_full','$user_email','$user_country','$user_creditcard_number')";
+				if ($user_id >= 0)
+				{
+					$sql = "INSERT INTO users('user_id', 'user_username', 'user_pass', 'user_name_full', 'user_email', 'user_country', 'user_creditcard_number') VALUES ('$user_id', '$user_username','$user_pass','$user_name_full','$user_email','$user_country','$user_creditcard_number')";
+				}else
+				{
+					$sql = "INSERT INTO users('user_username', 'user_pass', 'user_name_full', 'user_email', 'user_country', 'user_creditcard_number') VALUES ('$user_username','$user_pass','$user_name_full','$user_email','$user_country','$user_creditcard_number')";
+				}
 				$record = $pdo->query($sql);
 				$sql = "INSERT INTO users_characters('user_id', 'char_id') VALUES ('$user_id', '$char_id')";
 				$record = $pdo->query($sql);
 			}else
 			{
 				//We need to update this user
+				$sql = "INSERT INTO users('user_id', 'user_username', 'user_pass', 'user_name_full', 'user_email', 'user_country', 'user_creditcard_number') VALUES ('$user_id', '$user_username','$user_pass','$user_name_full','$user_email','$user_country','$user_creditcard_number')";
+				$record = $pdo->query($sql);
+				$sql = "INSERT INTO users_characters('user_id', 'char_id') VALUES ('$user_id', '$char_id')";
+				$record = $pdo->query($sql);
 			}
 
 			$pdo->beginTransaction();
