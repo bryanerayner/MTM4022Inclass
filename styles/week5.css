@@ -1,0 +1,293 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/***********************************************************
+					Fonts
+***********************************************************/
+
+@font-face {
+    font-family: 'vtksanimal2Regular';
+    src: url('../fonts/vtks_animal_2-webfont.eot');
+    src: url('../fonts/vtks_animal_2-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/vtks_animal_2-webfont.woff') format('woff'),
+         url('../fonts/vtks_animal_2-webfont.ttf') format('truetype'),
+         url('../fonts/vtks_animal_2-webfont.svg#vtksanimal2Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+/***********************************************************
+					Main
+***********************************************************/
+body{
+	background-color:black;	
+	color:#0FF;
+	font-size:18px;
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+#wrapper{
+	width:960px;
+	margin:50px auto;
+}
+
+h2{
+	font-family:"vtksanimal2Regular", "Trebuchet MS", Arial, Helvetica, sans-serif;	
+	font-size:36px;
+	margin:10px 0;
+}
+
+h3{
+	font-family:"vtksanimal2Regular", "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size:18px;
+}
+
+#picker{
+	width:90%;
+	height:200px;
+	background-color:hsl(270,100%,13%);
+	margin-top:20px;
+	padding:10px 5%;
+	border-top-left-radius: 50px 140px;
+	border-top-right-radius: 50px 140px;
+	border-bottom-left-radius: 50px 140px;
+	border-bottom-right-radius: 50px 140px;
+	
+	-moz-box-shadow:0 0 9px rgba(128,255,255,0.9);
+	-webkit-box-shadow:0 0 9px rgba(128,255,255,0.9);
+	-o-box-shadow:0 0 9px rgba(128,255,255,0.9);
+	box-shadow:0 0 9px rgba(128,255,255,0.9);
+}
+
+#slider{
+	width:55px;
+	height:55px;
+	overflow:hidden;	
+	border:2px solid black;
+	float:left;
+	border-radius:10px;
+}
+
+#cInfo1{
+	float:left;
+	font-family:"vtksanimal2Regular", "Trebuchet MS", Arial, Helvetica, sans-serif;
+	padding-top:13px;
+	width:40%;
+}
+
+#cInfo1 h3{
+	padding:1px 0 2px 5px;	
+}
+
+#cInfo2{
+	clear:left;
+	width:50%;
+	margin-left:65px;
+}
+
+#picholder{
+	width:500%;
+	height:55px;
+}
+
+#charRadios{
+	width:100%;
+	text-align:center;
+	padding-top:10px;	
+}
+
+#charRadios .cButton{
+	display:inline-block;
+	margin:0 7px;
+	width:30px;
+	height:30px;
+	background-color:hsl(270,100%,13%);
+	border:2px solid #0FF;
+	border-radius:30px;
+}
+
+#charRadios .cButton:hover{	
+	background-color:hsl(270,100%,28%);
+	cursor:pointer;	
+}
+
+.activated{
+	background-color:hsl(270,100%,28%) !important;
+}
+
+#stats{
+	padding-top:13px;
+	width:35%;
+	height:150px;
+	float:right;
+}
+
+.measure{
+	margin-top:5px;
+	height:22px;
+}
+
+.mName{
+	float:left;
+	width:30%;
+	text-align:right;
+	height:16px;
+}
+
+.meter{
+	float:left;
+	width:60%;
+}
+
+.mTotal{
+	display:block;
+	width:100%;
+	height:18px;
+	border:2px solid black;
+}
+
+.power{
+	background-color:#F00;	
+}
+
+.magic{
+	background-color:#0C0;
+}
+
+.awesome{
+	background-color:#0FF;	
+}
+
+#btn_play{
+	float:right;
+	background:	#0FF;
+	color:hsl(270,100%,13%);
+	border:2px solid white;
+	font-size:16px;
+	font-weight:bold;
+	margin-top:5px;
+	padding:0px 10px;
+	border-radius:25px;
+	cursor:pointer;
+}
+
+footer{
+	font-size:10px;
+	text-align:center;
+	color:hsl(270,100%,13%);
+	margin-top:5px;	
+}
+/***********************************************************
+					Form
+***********************************************************/
+
+#formbox{
+	width:60%;
+	margin:0 auto;
+	margin-top:10px;
+	padding:10px;
+	background:hsl(270,100%,13%);
+	
+	border-radius:10px;
+	-moz-box-shadow:0 0 9px rgba(128,255,255,0.9);
+	-webkit-box-shadow:0 0 9px rgba(128,255,255,0.9);
+	-o-box-shadow:0 0 9px rgba(128,255,255,0.9);
+	box-shadow:0 0 9px rgba(128,255,255,0.9);
+}
+
+label{
+	display:block;
+	width:180px;
+	text-align:right;
+	padding-right:10px;
+	float:left;
+	clear:both;
+	margin-bottom:10px;
+}
+
+input[type=text], input[type=password], .inputMime{
+	display:block;
+	float:left;
+	width:200px;
+}
+
+input[type=radio]{
+	float:left;	
+}
+
+#radioBox{
+	clear:both;	
+}
+
+#radioBox h4{
+	width:150px;
+	text-align:right;	
+	margin-bottom:10px;
+}
+
+#radioBox label{
+	padding-left:50px;
+	font-size:80%;
+}
+
+input[type=submit]{
+	clear:both;
+	display:block;
+	margin:0 auto;
+	
+	background:	#0FF;
+	color:hsl(270,100%,13%);
+	border:2px solid white;
+	font-size:16px;
+	font-weight:bold;
+	padding:0px 10px;
+	border-radius:25px;
+	cursor:pointer;
+}
