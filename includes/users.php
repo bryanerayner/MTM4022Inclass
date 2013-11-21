@@ -25,8 +25,6 @@ function aliasArray($input, $aliasKeys)
 
 class User
 {
-
-
 	private $user_id = -1;
 
 	public $user_username;
@@ -43,7 +41,7 @@ class User
 	    	switch($property){
 	    		case "id":
 	    		case "user_id":
-	    			return $this->"user_id";
+	    			return $this->user_id;
 	    		break;
 	    	}
 
@@ -53,8 +51,6 @@ class User
 	// Construct - accepts an associative array of values. If user_id is undefined, it will look up from the database.
 	function __construct($values)
 	{
-
-
 		if (is_array($values))
 		{
 		//Alias the array, set "javascript" names to their database equivalents.
@@ -80,7 +76,6 @@ class User
 		}
 	}
 	
-
 	private function construct_fromId($id)
 	{
 		if (is_numeric($id))
@@ -90,6 +85,7 @@ class User
 		}
 		
 	}
+
     private function construct_fromArray($values)
 	{
 		$expectedValues = array("user_username",
@@ -109,7 +105,7 @@ class User
 				$acceptedValues[$value] = $values[$value];
 			}else
 			{
-				$missingValues[$value] = $values[$value];
+				$missingValues[] = $value;
 			}
 		}
 
@@ -122,7 +118,7 @@ class User
 		}
 	}
 
-	//Attempt to save this to the database.
+	// Attempt to save this to the database.
 	//
 	// Returns "true" if a succesful save was done
 	// Returns "false" if unsuccesful
@@ -141,32 +137,30 @@ class User
 
 			//Check to see if there is a record in the database already.
 			$record = $this->fetch_record();
-			if ($record->rowCount() == 0)
-			{
-				
+			if ($record && $record->rowCount() == 0)
+			{			
 				//We need to insert this user
+				$sql = "INSERT INTO users('user_username', 'user_pass', 'user_name_full', 'user_email', 'user_country', 'user_creditcard_number') VALUES ('$user_username','$user_pass','$user_name_full','$user_email','$user_country','$user_creditcard_number')";
+				$pdo->query($sql);
+				$user_id = $pdo->lastInsertId();					
+				$sql = "INSERT INTO users_characters ('user_id', 'char_id') VALUES ('$user_id','$char_id')";
+				$record = $pdo->query($sql);					
+				$this->user_id= $user_id;
+			}else
+			{				
 				if ($user_id >= 0)
 				{
-					$sql = "INSERT INTO users('user_id', 'user_username', 'user_pass', 'user_name_full', 'user_email', 'user_country', 'user_creditcard_number') VALUES ('$user_id', '$user_username','$user_pass','$user_name_full','$user_email','$user_country','$user_creditcard_number')";
-				}else
-				{
-					$sql = "INSERT INTO users('user_username', 'user_pass', 'user_name_full', 'user_email', 'user_country', 'user_creditcard_number') VALUES ('$user_username','$user_pass','$user_name_full','$user_email','$user_country','$user_creditcard_number')";
-				}
-				$record = $pdo->query($sql);
-				$sql = "INSERT INTO users_characters('user_id', 'char_id') VALUES ('$user_id', '$char_id')";
-				$record = $pdo->query($sql);
-			}else
-			{
 				//We need to update this user
-				$sql = "INSERT INTO users('user_id', 'user_username', 'user_pass', 'user_name_full', 'user_email', 'user_country', 'user_creditcard_number') VALUES ('$user_id', '$user_username','$user_pass','$user_name_full','$user_email','$user_country','$user_creditcard_number')";
-				$record = $pdo->query($sql);
-				$sql = "INSERT INTO users_characters('user_id', 'char_id') VALUES ('$user_id', '$char_id')";
-				$record = $pdo->query($sql);
+					$sql = "UPDATE users SET 'user_username'='$user_username','user_pass'='$user_pass','user_name_full'='$user_name_full','user_email'='$user_email','user_country'='$user_country','user_creditcard_number'='$user_creditcard_number' WHERE user_id = '$user_id'";
+					$pdo->beginTransaction();
+					$pdo->exec($sql);
+					$sql = "UPDATE users_characters SET 'char_id'='$char_id' WHERE user_id = '$user_id'";
+					$pdo->exec($sql);
+					$pdo->commit();					
+				}
 			}
 
-			$pdo->beginTransaction();
-			$pdo->exec($sql);
-			$pdo->commit();
+
 			return true;
 		}
 		return false;
@@ -174,14 +168,14 @@ class User
 
 	public function validate()
 	{
-		$expectedValues = array(	"user_id",
-									"user_username",
-									"user_pass",
-									"user_name_full",
-									"user_email",
-									"user_country",
-									"user_creditcard_number",
-									"char_id");
+		$expectedValues = array("user_id",
+								"user_username",
+								"user_pass",
+								"user_name_full",
+								"user_email",
+								"user_country",
+								"user_creditcard_number",
+								"char_id");
 
 		foreach($expectedValues as $value)
 		{
@@ -193,12 +187,11 @@ class User
 		return true;
 	}
 
-
-
 	private function fetch()
 	{
 		$record = $this->fetch_record();
 		if($record)
+		{
 			if ($record->rowCount() > 0)
 			{
 				$values = $record->fetch(PDO::FETCH_ASSOC);
@@ -218,11 +211,19 @@ class User
 	//Fetch records associated with the 
 	private function fetch_record()
 	{
-		$id = $this->user_id;
-		if ($id >= 0)
+		if (isset($this->user_id))
 		{
-			$sql = "SELECT u.*, c.char_id FROM users as u INNER JOIN users_characters as c ON u.user_id = c.user_id WHERE u.user_id = '$id'";
-			$record = $pdo->query($sql);
+			$id = $this->user_id;
+			if ($id >= 0)
+			{
+				$sql = "SELECT u.*, c.char_id FROM users as u INNER JOIN users_characters as c ON u.user_id = c.user_id WHERE u.user_id = '$id'";
+				$record = $pdo->query($sql);
+				return $record;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		else
 		{

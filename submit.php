@@ -1,6 +1,7 @@
 <?php
 
 require_once("includes/db.inc.php");
+require_once("includes/users.php");
 
 header('Content-Type: application/json');
 
@@ -21,25 +22,35 @@ foreach($expectedValues as $value)
 		$acceptedValues[$value] = $_POST[$value];
 	}else
 	{
-		$missingValues[$value] = $_POST[$value];
+		$missingValues[] = $value;
 	}
 }
-
 
 if (0 == count($missingValues))
 {
 	//There are no empty fields.
 	if (validate_userName($acceptedValues["userName"]))
 	{
-		
+		if (validate_email($acceptedValues["email"]))
+		{
+			$newUser = new User($acceptedValues);
+			if ($newUser->save())
+			{
+				$pageResponse["status"] = "success";
+				$pageResponse["message"] = "Succesful Registration.";
+			}
+		}
+		else
+		{
+			$pageResponse["status"] = "error";
+			$pageResponse["message"] = "This username, $ already exists!";
+		}
 	}
 	else
 	{
 		$pageResponse["status"] = "error";
 		$pageResponse["message"] = "This username, $ already exists!";
 	}
-
-
 }else
 {
 	$pageResponse["status"] = "error";
@@ -47,13 +58,6 @@ if (0 == count($missingValues))
 }
 
 
-$userName = ;
-$pass = ;
-$email = ;
-$playName = ;
-$country = ;
-$credit = ;
-$characterType = ;
 
 
 

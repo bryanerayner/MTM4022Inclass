@@ -24,16 +24,20 @@ var returnedAjax;
 
 
 function submit_success(data, textStatus, jqXHR){
-
+	console.log(data);
 }
 function submit_error(jqXHR, textStatus, errorThrown){
-	
+	console.log(textStatus);	
 }
 
 
 
 $(document).ready(function(){
 	
+	$("#charRadios .cButton").on("click",function(){
+		var $this = $(this);
+		var id = parseInt($this.attr("id").replace("c", ""));
+	});
 	
 	$("#btnSubmit").on("click",function(){
 		var userName, pass, email, playName, credit, country, characterType, playForm;
