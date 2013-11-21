@@ -130,8 +130,29 @@ class User
 	{
 		if ($this->validate())
 		{
-			//Check to see if there is a record in the database already.
+			$user_id = $this->user_id;
+			$user_username = $this->user_username;
+			$user_pass = $this->user_pass;
+			$user_name_full = $this->user_name_full;
+			$user_email = $this->user_email;
+			$user_country = $this->user_country;
+			$user_creditcard_number = $this->user_creditcard_number;
+			$char_id = $this->char_id;
 
+			//Check to see if there is a record in the database already.
+			$record = $this->fetch_record();
+			if ($record->rowCount() == 0)
+			{
+				
+				//We need to insert this user
+				$sql = "INSERT INTO users('user_id', 'user_username', 'user_pass', 'user_name_full', 'user_email', 'user_country', 'user_creditcard_number') VALUES ('$user_id', '$user_username','$user_pass','$user_name_full','$user_email','$user_country','$user_creditcard_number')";
+				$record = $pdo->query($sql);
+				$sql = "INSERT INTO users_characters('user_id', 'char_id') VALUES ('$user_id', '$char_id')";
+				$record = $pdo->query($sql);
+			}else
+			{
+				//We need to update this user
+			}
 
 			$pdo->beginTransaction();
 			$pdo->exec($sql);
