@@ -10,7 +10,8 @@ echo "<?xml version=\"1.0\"?>"; //XML declaration
 if(isset($_GET["test"])){
 	
 	//make a request to the database
-	$oConn = mysqli_connect("localhost", "root", "", "chars");
+	//$oConn = mysqli_connect("localhost", "root", "", "chars");
+	$oConn = mysqli_connect("localhost", "rayn0021", "40628090", "rayn0021");
 	
 	//make the query
 	$query = "SELECT name
@@ -40,7 +41,8 @@ if(isset($_GET["name"])){
 	$char_name = $_GET["name"];
 	
 	//once again, prepare the request
-	$oConn = mysqli_connect("localhost", "root", "", "chars");
+	//$oConn = mysqli_connect("localhost", "root", "", "chars");
+	$oConn = mysqli_connect("localhost", "rayn0021", "40628090", "rayn0021");
 	
 	//make the query, this time getting only the exact species
 	$query = "SELECT *
@@ -68,7 +70,6 @@ if(isset($_GET["name"])){
 	mysqli_close($oConn);
 				
 }
-
 
 
 ?>
